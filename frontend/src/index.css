@@ -1,6 +1,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Prata&display=swap');
 @import "tailwindcss";
 
+/* Professional Navbar Glassmorphism & Animations */
+.navbar-glass-pro {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px) saturate(160%);
+  border: 1px solid rgba(180,180,180,0.13);
+  box-shadow: 0 4px 24px 0 rgba(31,38,135,0.08);
+}
+
+.logo-pro img {
+  transition: transform 0.22s cubic-bezier(.4,0,.2,1);
+}
+.logo-pro:hover img {
+  transform: scale(1.04);
+}
+
+.icon-pro {
+  transition: color 0.18s, transform 0.18s;
+}
+.icon-pro:hover {
+  color: #6366f1;
+  transform: scale(1.13);
+}
+
+.nav-pro {
+  position: relative;
+  color: #222;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 0 2px;
+}
+.nav-pro-underline {
+  display: block;
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -2px;
+  height: 2px;
+  background: #000000;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.28s cubic-bezier(.4,0,.2,1);
+}
+.nav-pro.active .nav-pro-underline,
+.nav-pro:hover .nav-pro-underline {
+  width: 64%;
+}
+
 a.active hr{
   display: block;
 }
