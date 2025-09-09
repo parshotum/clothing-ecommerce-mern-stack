@@ -33,52 +33,52 @@ const Navbar = () => {
   };
 
   return (
-  <div className="navbar-glass-pro flex items-center justify-between py-3 sm:py-5 px-4 sm:px-8 font-medium shadow-md rounded-xl">
+    <div className="flex items-center justify-between py-3 sm:py-5 px-4 sm:px-6 font-medium">
       {/* Logo */}
-      <Link to={"/"} className="logo-pro">
-        <img src={assets.logo} className="w-28 sm:w-36 md:w-40" alt="Logo" />
+      <Link to={"/"}>
+        <img src={assets.logo} className="w-24 sm:w-32 md:w-36" alt="Logo" />
       </Link>
 
       {/* Desktop Navigation */}
-  <ul className="hidden lg:flex gap-10 text-base text-gray-800 tracking-wide">
-        <NavLink to={"/"} className="nav-pro flex flex-col items-center gap-1">
-          <span>HOME</span>
-          <span className="nav-pro-underline"></span>
+      <ul className="hidden lg:flex gap-5 text-sm text-gray-700">
+        <NavLink to={"/"} className="flex flex-col items-center gap-1">
+          <p>HOME</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
 
         <NavLink
           to={"/collection"}
-          className="nav-pro flex flex-col items-center gap-1"
+          className="flex flex-col items-center gap-1"
         >
-          <span>COLLECTION</span>
-          <span className="nav-pro-underline"></span>
+          <p>COLLECTION</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
 
-        <NavLink to={"/about"} className="nav-pro flex flex-col items-center gap-1">
-          <span>ABOUT</span>
-          <span className="nav-pro-underline"></span>
+        <NavLink to={"/about"} className="flex flex-col items-center gap-1">
+          <p>ABOUT</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
 
-        <NavLink to={"/contact"} className="nav-pro flex flex-col items-center gap-1">
-          <span>CONTACT</span>
-          <span className="nav-pro-underline"></span>
+        <NavLink to={"/contact"} className="flex flex-col items-center gap-1">
+          <p>CONTACT</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
       </ul>
 
       {/* Right side icons */}
-  <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
+      <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
         {/* Search - visible on all screens */}
         <Search
           onClick={() => setShowSearch(true)}
           strokeWidth={1.5}
-          className="w-5 h-5 cursor-pointer icon-pro transition-colors"
+          className="w-5 h-5 cursor-pointer hover:text-gray-500 transition-colors"
         />
 
         {/* User dropdown */}
         <div className="group relative">
           <User
             strokeWidth={1.5}
-            className="w-5 h-5 cursor-pointer icon-pro transition-colors"
+            className="w-5 h-5 cursor-pointer hover:text-gray-500 transition-colors"
             onClick={() => (token ? null : navigate("/login"))}
           />
           {/* drop Down Menu */}
@@ -107,25 +107,25 @@ const Navbar = () => {
         <Link to={"/cart"} className="relative group">
           <ShoppingBag
             strokeWidth={1.5}
-            className="w-5 h-5 icon-pro transition-colors"
+            className="w-5 h-5 hover:text-gray-500 transition-colors"
           />
-          <span className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-gray-900 text-white aspect-square rounded-full text-[10px] font-semibold border border-white shadow group-hover:scale-110 transition-transform">
+          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px] group-hover:bg-gray-700 transition-colors">
             {getCartCount()}
-          </span>
+          </p>
         </Link>
 
         {/* Mobile menu button */}
         <Menu
           strokeWidth={1.5}
-          className="w-5 h-5 cursor-pointer lg:hidden icon-pro transition-colors"
+          className="w-5 h-5 cursor-pointer lg:hidden hover:text-gray-500 transition-colors"
           onClick={() => setVisible(true)}
         />
       </div>
 
       {/* Mobile sidebar menu */}
       <div
-        className={`fixed top-0 right-0 bottom-0 overflow-hidden bg-white transition-all duration-400 z-50 shadow-2xl ${
-          visible ? "w-full sm:w-80 animate-slide-in" : "w-0"
+        className={`fixed top-0 right-0 bottom-0 overflow-hidden bg-white transition-all duration-300 z-50 shadow-2xl ${
+          visible ? "w-full sm:w-80" : "w-0"
         }`}
       >
         <div className="flex flex-col h-full">
