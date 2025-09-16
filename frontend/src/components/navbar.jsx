@@ -11,11 +11,14 @@ import {
   Info,
   Phone,
 } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
   const {
     setShowSearch,
     getCartCount,
@@ -25,11 +28,52 @@ const Navbar = () => {
     setCartItems,
   } = useContext(ShopContext);
 
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, []);
+
   const logout = () => {
     navigate("/login");
     localStorage.removeItem("token");
     setToken("");
     setCartItems({});
+    setIsDropdownOpen(false); // Close dropdown after logout
+  };
+
+  const handleUserIconClick = () => {
+    if (!token) {
+      navigate("/login");
+    } else {
+      // Toggle dropdown on mobile/touch devices
+      setIsDropdownOpen(!isDropdownOpen);
+    }
+  };
+
+  const handleMouseEnter = () => {
+    // Only auto-open on hover for non-touch devices
+    if (!('ontouchstart' in window) && token) {
+      setIsDropdownOpen(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    // Only auto-close on hover leave for non-touch devices
+    if (!('ontouchstart' in window)) {
+      setIsDropdownOpen(false);
+    }
   };
 
   return (
@@ -75,20 +119,37 @@ const Navbar = () => {
         />
 
         {/* User dropdown */}
-        <div className="group relative">
+        <div 
+          className="group relative" 
+          ref={dropdownRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <User
             strokeWidth={1.5}
             className="w-5 h-5 cursor-pointer hover:text-gray-500 transition-colors"
-            onClick={() => (token ? null : navigate("/login"))}
+            onClick={handleUserIconClick}
           />
-          {/* drop Down Menu */}
+          
+          {/* Dropdown Menu */}
           {token && (
-            <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50">
+            <div className={`absolute dropdown-menu right-0 pt-4 z-50 ${
+              isDropdownOpen ? 'block' : 'hidden group-hover:block'
+            }`}>
               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-white text-gray-600 rounded-lg shadow-xl border border-gray-100">
-                <p className="cursor-pointer hover:text-black hover:bg-gray-50 px-2 py-1 rounded transition-all">
+                <p 
+                  className="cursor-pointer hover:text-black hover:bg-gray-50 px-2 py-1 rounded transition-all"
+                  onClick={() => setIsDropdownOpen(false)} // Close on mobile after click
+                >
                   My Profile
                 </p>
-                <p onClick={()=>navigate("/orders")} className="cursor-pointer hover:text-black hover:bg-gray-50 px-2 py-1 rounded transition-all">
+                <p 
+                  onClick={() => {
+                    navigate("/orders");
+                    setIsDropdownOpen(false); // Close on mobile after navigation
+                  }} 
+                  className="cursor-pointer hover:text-black hover:bg-gray-50 px-2 py-1 rounded transition-all"
+                >
                   Orders
                 </p>
                 <hr className="border-gray-200 my-1" />

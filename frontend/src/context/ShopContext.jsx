@@ -35,6 +35,7 @@ const ShopContextProvider = (props) => {
       cartData[itemId][size] = 1;
     }
     setCartItems(cartData);
+    toast.success("Item added to cart successfully");
 
     if (token) {
       try {
@@ -43,7 +44,6 @@ const ShopContextProvider = (props) => {
           { itemId, size },
           { headers: { token } }
         );
-        toast.success("Item added to cart successfully");
       } catch (error) {
         console.log(error);
         toast.error(error.message);
